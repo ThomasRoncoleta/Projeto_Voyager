@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <locale.h>
-#define QTD 3
+#define QTD 4 //horas - alterar para 24 quando completo
+#define CPT 4 //capitões - alterar para 4 quando completo
 
-/*A espaçonave Voyager está em uma viagem até Plutão. Dentro dela, os tripulantes estão em
+/*15- A espaçonave Voyager está em uma viagem até Plutão. Dentro dela, os tripulantes estão em
 estado dormente em quatro cápsulas de sono (cápsula 1, cápsula 2, cápsula 3 e cápsula 4). De
 hora a hora são medidas as temperaturas de cada tripulante (ao longo de um dia = 24 leituras para
 cada tripulante). Escreva um programa capaz de:
@@ -18,121 +19,157 @@ int main ()
 {
 	setlocale(LC_ALL,"");
 	
-	float temp [QTD][4];
-	float media[4];
-	float MenorTemperatura, acumulador;
-	int tripulante, i, j;
-	char resp;
+	float temp [QTD][CPT];
+	float media[QTD];
+	int posicao, hora;
+	int tripulante, tarefa, batimentos, i, j;
+	int linha, coluna;
+	char resp, confirm;
+	float MenorTemp, MenorMedia;
 	
+	system("Color A");
 	printf("________________________________________________________VOYAGER_________________________________________________________");
-	printf("------------------------------------------------------------------------------------------------------------------------");
-	printf("1) Calcular Média de Pulsações");
-	printf("\n2) Armazenar as Temperaturas das Cápsulas");
-	printf("\n3) Identificar Cápsula com Menor Valor Médio de Temperatura");
-	printf("\n4) Identificar Cápsula com Menor Valor registrado e a hora\n");
-	printf("------------------------------------------------------------------------------------------------------------------------");
-	
-	printf("Qual função deseja executar ?");
-	
 	printf("------------------------------------------------------------------------------------------------------------------------");
 	printf("Tripulantes Presentes: ");
 	printf("\n1) Cpt. Cesar Tofanini");
-	printf("\n2) Sgt. Marta");
-	printf("\n3) Etg. Daniel");
-	printf("\n4) Ceo. Robert\n");
+	printf("\n2) Cpt. Saito");
+	printf("\n3) Cpt. Tetsuo");
+	printf("\n4) Cpt. Vanderlei\n");
 	printf("------------------------------------------------------------------------------------------------------------------------");
 	
-	do {
-	printf("\nVocê é qual tripulante ?: ");
-	scanf("%i", &tripulante);
+	
+	system("Color A");
+	
+	printf("Registre as temperaturas: \n\n");
+	
+	for(i=0; i<CPT; i++)
+	{
 	printf("\n");
-	switch (tripulante)
-	{
-		case 1:
-			for (i=0; i<QTD; i++)
+		for(j=0; j<QTD; j++)
+		{
+			printf("Cápsula: %i, Hora: %i: ", i+1, j+1);
+			scanf ("%f", &temp [i][j]);
+			tripulante = i;
+			switch (tripulante)
 			{
-				printf("Digite a sua temperatura as %i horas: ", i+1);
-				scanf("%f", &temp[i][0]);
-				media[tripulante] = media[tripulante] + temp [i][0];
+				case 0:
+				media[tripulante] = media[tripulante] + temp [i][j];
+				break;
+				case 1:
+				media[tripulante] = media[tripulante] + temp [i][j];
+				break;
+				case 2:
+				media[tripulante] = media[tripulante] + temp [i][j];
+				break;
+				case 3:
+				media[tripulante] = media[tripulante] + temp [i][j];
+				break;
 			}
-			media[tripulante] = media[tripulante]/QTD;
-		break;
-		case 2:
-			for (i=0; i<QTD; i++)
-			{
-				printf("Digite a sua temperatura as %i horas: ", i+1);
-				scanf("%f", &temp[i][1]);
-				media[tripulante] = media[tripulante] + temp [i][1];
-			}
-			media[tripulante] = media[tripulante]/QTD;
-		break;
-		case 3:
-			for (i=0; i<QTD; i++)
-			{
-				printf("Digite a sua temperatura as %i horas: ", i+1);
-				scanf("%f", &temp[i][2]);
-				media[tripulante] = media[tripulante] + temp [i][2];
-			}
-			media[tripulante] = media[tripulante]/QTD;
-		break;
+		}
+		media[tripulante] = media[tripulante]/QTD;
+		printf("\nA média de temperatura do tripulante %i foi de %.2f°C durante as últimas 24 horas", i+1, media[tripulante]);	
+		printf("\n");	
+	}
+	printf("\n");
+	system("pause");
+	system("cls");
+	
+	do {
+		system("Color B");
+		printf("________________________________________________________VOYAGER_________________________________________________________");
+		printf("------------------------------------------------------------------------------------------------------------------------");
+		printf("1) Calcula Média de Pulsações");
+		printf("\n2) Identifica Cápsula com Menor Valor Médio de Temperatura");
+		printf("\n3) Identifica Cápsula com Menor Valor registrado e a hora");
+		printf("\n4) Imprime uma matriz das Temperatura registradas para cada Tripulante");
+		printf("\n5) Limpa a tela do terminal \n");
+		printf("------------------------------------------------------------------------------------------------------------------------");
+		
+		printf("\n\nQual função deseja executar ?");
+		scanf("%i", &tarefa);
+	
+		switch (tarefa)
+		{
+			case 1:
+				printf("\n------------------------------------------------------------------------------------------------------------------------");
+				printf("\nQuantos batimentos você teve nos últimos 10seg ?: ");
+				scanf("%i", &batimentos);
+				batimentos = batimentos * 6;
+				printf("\nSua frequência cardíaca é de %i batimentos por minuto", batimentos);
+				printf("\n------------------------------------------------------------------------------------------------------------------------");
+				printf("\n\nDeseja voltar ao menu ? (s/n):");
+				scanf("%s", &resp);
+				
+			break;
+			case 2:
+				MenorMedia=100;
+				printf("\n------------------------------------------------------------------------------------------------------------------------");
+				printf("\nIdentificar Cápsula com Menor Valor Médio de Temperatura \n");
+					for (i=0; i<QTD; i++) 
+					{
+						if (media[i]<MenorMedia)
+						{
+							MenorMedia=media[i];
+						}
+					}
+				printf("\n\nA menor Media registrada foi: %.2f", MenorMedia);
+				printf("\n------------------------------------------------------------------------------------------------------------------------");
+				printf("\n\nDeseja voltar ao menu ? (s/n):");
+				scanf("%s", &resp);	
+			break;
+			case 3:
+				MenorTemp = 100;
+				printf("\n------------------------------------------------------------------------------------------------------------------------");
+				printf("\nIdentificar Cápsula com Menor Valor registrado e a hora \n");
+				for (i=0; i<CPT; i++)
+				{
+					for (j=0; j<QTD; j++)
+					{
+						if (temp[i][j]<MenorTemp)
+						{
+							MenorTemp=temp[i][j];
+							posicao = i;
+							hora = j;
+						}
+					}
+				}
+				printf("\n\nA menor Temperatura registrada foi: %.2f \nNa Cápsula: %i \nAs %i horas\n", MenorTemp, posicao+1, hora+1);
+				printf("------------------------------------------------------------------------------------------------------------------------");
+				printf("\n\nDeseja voltar ao menu ? (s/n):");
+				scanf("%s", &resp);
+			break;
 			case 4:
-			for (i=0; i<QTD; i++)
-			{
-				printf("Digite a sua temperatura as %i horas: ", i+1);
-				scanf("%f", &temp[i][3]);
-				media[tripulante] = media[tripulante] + temp [i][3];
-			}
-			media[tripulante] = media[tripulante]/QTD;
-		break;
-	}
-	
-	printf("\nA média de temperatura do tripulante %i foi de %.2f°C durante as últimas 24 horas", tripulante, media[tripulante]);
-	
-	
-	printf("\n\nDeseja continuar? (s/n): ");
-	scanf ("%s", &resp);
-	
-	} while (resp=='s');
-	
-	/*MenorTemperatura = 100;
-	
-	for (i=0; i<QTD; i++)
-	{
-		for (j=0; j<QTD; j++)
-		{
-			if (temp[i][j]<MenorTemperatura)
-			{
-				MenorTemperatura=temp[i][j];
-			}
+		      	printf("\n____________Temperatura p/h____________");
+				for (i=0; i<CPT; i++)
+				{
+					printf("\n Tripulante %i: ", i+1);
+					for (j=0; j<QTD; j++)
+					{
+						printf("[%.2f]", temp[i][j]);
+					}
+				}
+				printf("\n_______________________________________");
+				printf("\n\nDeseja voltar ao menu ? (s/n):");
+				scanf("%s", &resp);
+			break;
+			case 5:
+				printf("Tem certeza que deseja apagar o histórico acima ? (s/n): ");
+				scanf("%s", &confirm);
+				if (confirm == 's')
+				{
+					system("cls");
+				}
+				printf("\n\nDeseja voltar ao menu ? (s/n):");
+				scanf("%s", &resp);
+			break;
+			default:
+				system("Color C");
+				printf("\nFunção Inválida");
+				printf("\n\nDeseja voltar ao menu ? (s/n):");
+				scanf("%s", &resp);
+				system("cls");
 		}
-	}
-	
-	for (i=0; i<QTD; i++)
-	{
-		for (j=0; j<QTD; j++)
-		{
-			if (temp[i][j]==MenorTemperatura)
-			{
-				printf("\n\nMenor temperatura: %.2f", MenorTemperatura);
-				printf("\nCapsula do tripulante pertencente: %f", temp[j]);
-				printf("\nHora em que foi registrada: %f", temp[i]);
-			}
-		}
-	}
-	
-	//printf("A menor temperatura registrada foi de: %.2f, retirada do tripulante: %i", MenorTemperatura, tripulante);
-	
-	
-	for (i=1; i<5; i++)
-	{
-		if (media[i]<media[i+1])
-		{
-			acumulador = media[i];
-			printf("media da vez: %.f", media[i]);
-		}
-	}
-	printf ("\n\nA menor média foi de %.2f", acumulador);
-	*/
+	}while (resp == 's');
 	
 	return 0;
 }
